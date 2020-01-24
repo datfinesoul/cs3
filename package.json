@@ -1,0 +1,19 @@
+{
+  "name": "unbalancer",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js"
+  },
+  "author": "Philip Hadviger",
+  "license": "ISC",
+  "dependencies": {},
+  "engines": {
+    "node": "10.15.3",
+    "npm": "6.4.1"
+  },
+  "devDependencies": {
+    "ava": "^3.0.0"
+  }
+}
