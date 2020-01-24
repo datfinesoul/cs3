@@ -14,6 +14,14 @@
     "npm": "6.4.1"
   },
   "devDependencies": {
-    "ava": "^3.0.0"
+    "ava": "^3.0.0",
+    "husky": "^4.2.1"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm test",
+      "pre-push": "npm test",
+      "...": "..."
+    }
   }
 }
