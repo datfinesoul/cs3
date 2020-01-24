@@ -1,27 +1,45 @@
 {
-  "name": "unbalancer",
+  "name": "cs3",
   "version": "1.0.0",
-  "description": "",
-  "main": "src/server.js",
+  "description": "ConsistentS3",
+  "main": "index.js",
   "scripts": {
-    "start": "node src/server.js"
+    "lint": "xo",
+    "lint:fix": "xo --fix .",
+    "test": "ava",
+    "test:watch": "ava --watch --verbose",
+    "test:snapshot": "ava --update-snapshots"
   },
-  "author": "Philip Hadviger",
-  "license": "ISC",
+  "author": {
+    "name": "Philip Hadviger",
+    "email": "datfinesoul@phad.me",
+    "url": "github.com/datfinesoul"
+  },
+  "license": "MIT",
   "dependencies": {},
   "engines": {
-    "node": "10.15.3",
-    "npm": "6.4.1"
+    "node": ">= 8"
   },
   "devDependencies": {
     "ava": "^3.0.0",
-    "husky": "^4.2.1"
+    "husky": "^4.2.1",
+    "lint-staged": "^10.0.2",
+    "xo": "^0.25.3"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm test",
+      "pre-commit": "lint-staged",
       "pre-push": "npm test",
       "...": "..."
     }
+  },
+  "ava": {
+    "watch": false
+  },
+  "xo": {
+    "space": true
+  },
+  "lint-staged": {
+    "*": "xo"
   }
 }
