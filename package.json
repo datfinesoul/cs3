@@ -25,6 +25,7 @@
   },
   "devDependencies": {
     "ava": "^3.0.0",
+    "eslint": "^6.8.0",
     "husky": "^4.2.1",
     "lint-staged": "^10.0.2",
     "xo": "^0.25.3"
@@ -43,7 +44,10 @@
     "space": true,
     "rules": {
       "func-names": 0,
-      "object-curly-spacing": 0
+      "capitalized-comments": 0,
+      "object-curly-spacing": [
+        "error", "always", { "objectsInObjects": false }
+      ]
     }
   },
   "lint-staged": {

@@ -1,6 +1,6 @@
 const test = require('ava');
 const aws = require('aws-sdk');
-const {generateId} = require('../../src/generators');
+const { generateId } = require('../../src/generators');
 const $put = require('../../src/put');
 
 test.before(t => {

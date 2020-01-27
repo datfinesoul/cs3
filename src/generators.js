@@ -1,4 +1,4 @@
-const {promisify} = require('util');
+const { promisify } = require('util');
 const crypto = require('crypto');
 const aws = require('aws-sdk');
 const randomFill = promisify(crypto.randomFill);
