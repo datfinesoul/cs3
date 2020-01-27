@@ -8,6 +8,8 @@ test.afterEach(t => {
   t.is(process.env.NODE_ENV, 'production');
 });
 
-test('test', t => {
-  t.is(true, true);
+test('init core', t => {
+  const lib = require('..');
+  t.true(typeof lib.put === 'function');
+  t.true(typeof lib.list === 'function');
 });

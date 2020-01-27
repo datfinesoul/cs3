@@ -16,7 +16,10 @@
     "url": "github.com/datfinesoul"
   },
   "license": "MIT",
-  "dependencies": {},
+  "dependencies": {
+    "@aws-crypto/client-node": "^1.0.2",
+    "aws-sdk": "^2.610.0"
+  },
   "engines": {
     "node": ">= 8"
   },
@@ -37,7 +40,11 @@
     "watch": false
   },
   "xo": {
-    "space": true
+    "space": true,
+    "rules": {
+      "func-names": 0,
+      "object-curly-spacing": 0
+    }
   },
   "lint-staged": {
     "*": "xo"
