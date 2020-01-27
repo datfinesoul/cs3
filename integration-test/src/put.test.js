@@ -1,5 +1,7 @@
 const test = require('ava');
 const aws = require('aws-sdk');
+const { generateId } = require('../../src/generators');
+const $put = require('../../src/put');
 
 test.before(t => {
   t.context.config = {
@@ -17,7 +19,8 @@ test.before(t => {
         connectTimeout: 10000
       },
       maxRetries: 0
-    }
+    },
+    bucket: process.env.CS3_BUCKET
   };
 });
 
@@ -32,6 +35,7 @@ test.beforeEach(t => {
   t.truthy(t.context.config.dynamoDb.region);
   t.truthy(t.context.config.dynamoDb.accessKeyId);
   t.truthy(t.context.config.dynamoDb.secretAccessKey);
+  t.truthy(t.context.config.bucket);
 
   // T.log(t.context.s3);
   // t.log(t.context.dynamoDb);
@@ -41,6 +45,12 @@ test.afterEach(t => {
   t.is(process.env.NODE_ENV, 'production');
 });
 
-test('test', t => {
-  t.pass();
+test('put success', async t => {
+  const key = `cs3/${await generateId(5)}/${await generateId(10)}.txt`;
+  const content = 'Hello World!1!';
+  const bucket = process.env.CS3_BUCKET;
+  const put = $put(t.context.s3);
+  const result = await put(bucket, key, content);
+  t.truthy(result);
+  t.truthy(result.ETag);
 });

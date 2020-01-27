@@ -14,10 +14,8 @@ exports.generateId = async function generateId(len) {
   return [...arr].map(dec2hex).join('').slice(0, len);
 };
 
-// TODO: somewhat unclear atm why this is different from aws
 exports.hashBase64Md5 = function hashBase64Md5(input) {
-  const md5 = crypto.createHash('md5').update(input).digest('hex');
-  return Buffer.from(md5).toString('base64');
+  return crypto.createHash('md5').update(input).digest('base64');
 };
 
 exports.md5 = function md5(input) {

@@ -8,7 +8,8 @@
     "lint:fix": "xo --fix .",
     "test": "ava",
     "test:watch": "ava --watch --verbose",
-    "test:snapshot": "ava --update-snapshots"
+    "test:snapshot": "ava --update-snapshots",
+    "integration": "ava --config ./integration-tests.cjs"
   },
   "author": {
     "name": "Philip Hadviger",
@@ -28,6 +29,7 @@
     "eslint": "^6.8.0",
     "husky": "^4.2.1",
     "lint-staged": "^10.0.2",
+    "sinon": "^8.1.1",
     "xo": "^0.25.3"
   },
   "husky": {
@@ -38,7 +40,8 @@
     }
   },
   "ava": {
-    "watch": false
+    "watch": false,
+    "files": ["test/**/*.test.js"]
   },
   "xo": {
     "space": true,
@@ -46,8 +49,20 @@
       "func-names": 0,
       "capitalized-comments": 0,
       "object-curly-spacing": [
-        "error", "always", { "objectsInObjects": false }
-      ]
+        "error",
+        "always",
+        {
+          "objectsInObjects": false
+        }
+      ],
+      "indent": [
+        "error",
+        2,
+        {
+          "MemberExpression": 0
+        }
+      ],
+      "ava/no-ignored-test-files": 0
     }
   },
   "lint-staged": {
