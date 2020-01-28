@@ -12,13 +12,23 @@
   const s3 = new aws.S3(args);
 
   const bucket = 'dev-glg-epi-screamer';
-  const key = 'cs3/test/1234.xml';
+  const keys = [
+    'cs3/test/plan.xml',
+    'cs3/test/context.json',
+    'cs3/test/rawTemplate',
+    'cs3/test/renderedTemplate.xml'
+  ];
 
   const $get = create(s3);
 
   try {
-    const result = await $get(bucket, key);
-    console.log(result);
+    const promises = keys.map(key =>
+      $get(bucket, key)
+    );
+    await Promise.all(promises)
+    .then(result => {
+      console.log(result.map(v => v.ETag));
+    });
   } catch (error) {
     console.error('error', error);
   }

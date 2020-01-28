@@ -16,13 +16,22 @@
   const s3 = new aws.S3(args);
 
   const bucket = 'dev-glg-epi-screamer';
-  const key = 'cs3/test/1234.xml';
-  const body = await readFileAsync('./plan.xml', 'utf8');
+  const files = [
+    ['cs3/test/plan.xml', await readFileAsync('./plan.xml', 'utf8')],
+    ['cs3/test/context.json', await readFileAsync('context.json', 'utf8')],
+    ['cs3/test/rawTemplate', await readFileAsync('./rawTemplate', 'utf8')],
+    ['cs3/test/renderedTemplate.xml', await readFileAsync('./renderedTemplate', 'utf8')]
+  ];
 
   const $push = create(s3);
   try {
-    const result = await $push(bucket, key, body);
-    console.log(result);
+    const promises = files.map(([key, body]) =>
+      $push(bucket, key, `${body}\n${Date.now()}`)
+    );
+    await Promise.all(promises)
+    .then(result => {
+      console.log(result);
+    });
   } catch (error) {
     console.log('error', error);
   }
