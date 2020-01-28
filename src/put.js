@@ -1,12 +1,12 @@
 const { md5 } = require('./generators');
 
 function putS3(s3, bucket, key, body) {
-  const digest = md5(body);
+  const { ContentMD5 } = md5(body);
   return s3.putObject({
     Bucket: bucket,
     Key: key,
     Body: body,
-    ContentMD5: digest
+    ContentMD5
   }).promise();
 }
 

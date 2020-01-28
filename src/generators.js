@@ -19,5 +19,8 @@ exports.hashBase64Md5 = function hashBase64Md5(input) {
 };
 
 exports.md5 = function md5(input) {
-  return aws.util.crypto.md5(input, 'base64');
+  return {
+    ETag: aws.util.crypto.md5(input, 'hex'),
+    ContentMD5: aws.util.crypto.md5(input, 'base64')
+  };
 };
