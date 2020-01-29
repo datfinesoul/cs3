@@ -6,7 +6,7 @@
   "scripts": {
     "lint": "xo",
     "lint:fix": "xo --fix .",
-    "test": "ava",
+    "test": "ava --verbose",
     "test:watch": "ava --watch --verbose",
     "test:snapshot": "ava --update-snapshots",
     "integration": "ava --config ./integration-tests.cjs",
@@ -48,6 +48,8 @@
   "xo": {
     "space": true,
     "rules": {
+      "promise/prefer-await-to-then": 1,
+      "padding-line-between-statements": 0,
       "func-names": 0,
       "capitalized-comments": 0,
       "object-curly-spacing": [

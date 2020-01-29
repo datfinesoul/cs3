@@ -13,6 +13,9 @@
 
   const bucket = 'dev-glg-epi-screamer';
   const keys = [
+    'cs3/test/1mb.txt',
+    'cs3/test/5mb.txt',
+    'cs3/test/10mb.txt',
     'cs3/test/plan.xml',
     'cs3/test/context.json',
     'cs3/test/rawTemplate',
@@ -27,7 +30,19 @@
     );
     await Promise.all(promises)
     .then(result => {
-      console.log(result.map(v => v.ETag));
+      const parsed = result.map(({ response, error }) => {
+        if (response && response.ETag) {
+          return response.ETag;
+        }
+        if (response) {
+          return response;
+        }
+        if (error && error.code) {
+          return error.code;
+        }
+        return error;
+      });
+      console.log(parsed);
     });
   } catch (error) {
     console.error('error', error);

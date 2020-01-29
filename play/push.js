@@ -17,6 +17,9 @@
 
   const bucket = 'dev-glg-epi-screamer';
   const files = [
+    ['cs3/test/1mb.txt', await readFileAsync('./1mb.txt', 'utf8')],
+    ['cs3/test/5mb.txt', await readFileAsync('./5mb.txt', 'utf8')],
+    ['cs3/test/10mb.txt', await readFileAsync('./10mb.txt', 'utf8')],
     ['cs3/test/plan.xml', await readFileAsync('./plan.xml', 'utf8')],
     ['cs3/test/context.json', await readFileAsync('context.json', 'utf8')],
     ['cs3/test/rawTemplate', await readFileAsync('./rawTemplate', 'utf8')],
