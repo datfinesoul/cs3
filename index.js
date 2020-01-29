@@ -1,6 +1,8 @@
 'use strict';
-exports.put = require('./src/put');
-exports.list = require('./src/list');
-exports.rename = require('./src/rename');
-exports.move = require('./src/move');
-exports.delete = require('./src/delete');
+module.exports = s3 => {
+  return {
+    get: require('./src/get')(s3),
+    put: require('./src/put')(s3),
+    list: require('./src/list')(s3)
+  };
+};

@@ -16,6 +16,10 @@ operations check this bucket to validate that the getRequest fetches the truly m
 Currently the library has only basic put/get operation support and does not support S3 versioning or
 multipart uploads.
 
+## Not Supported
+
+- No rename support
+
 ## Notes
 
 ### single file

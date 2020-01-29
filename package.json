@@ -7,10 +7,11 @@
     "lint": "xo",
     "lint:fix": "xo --fix .",
     "test": "ava --verbose",
+    "test:push": "ava",
     "test:watch": "ava --watch --verbose",
     "test:snapshot": "ava --update-snapshots",
     "integration": "ava --config ./integration-tests.cjs",
-    "integration:watch": "ava --watch --config ./integration-tests.cjs"
+    "integration:watch": "ava --watch --verbose --config ./integration-tests.cjs"
   },
   "author": {
     "name": "Philip Hadviger",
@@ -35,7 +36,7 @@
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged",
-      "pre-push": "npm test",
+      "pre-push": "npm run test:push",
       "...": "..."
     }
   },
