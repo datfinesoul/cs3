@@ -1,3 +1,5 @@
+const loget = require('lodash.get');
+
 function fetchETag(dynamodb, bucket, key) {
   const args = {
     TableName: 'cs3',
@@ -37,8 +39,9 @@ module.exports = (s3, dynamodb) => {
       getS3(s3, bucket, key)
     ];
     const [dbres, s3res] = await Promise.all(promises);
-    const dbETag = (dbres && dbres.Item && dbres.Item.ETag && dbres.Item.ETag.S) || null;
-    const s3ETag = (s3res && s3res.response && s3res.response.ETag) || null;
+    const dbETag = loget(dbres, 'Item.ETag.S', null);
+    const s3ETag = loget(s3res, 'response.ETag', null);
+    console.log(dbETag, s3ETag);
     if (dbETag !== s3ETag) {
       throw new Error('etag_mismatch');
     }

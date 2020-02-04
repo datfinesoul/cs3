@@ -20,7 +20,9 @@
   },
   "license": "MIT",
   "dependencies": {
-    "aws-sdk": "^2.610.0"
+    "aws-sdk": "^2.610.0",
+    "lodash.get": "^4.4.2",
+    "lodash.isstring": "^4.0.1"
   },
   "engines": {
     "node": ">= 8"

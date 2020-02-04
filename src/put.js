@@ -1,3 +1,5 @@
+const loget = require('lodash.get');
+const loisstring = require('lodash.isstring');
 const { md5 } = require('./generators');
 
 /*
@@ -16,30 +18,30 @@ function putS3(s3, bucket, key, body) {
 /*
  * Update an ETag for a bucket/key combo in DynamoDB
  */
-async function saveETag(dynamodb, bucket, key, ETag) {
+async function saveETag(dynamodb, bucket, key, newETag) {
+  if (![bucket, key, newETag].every(loisstring)) {
+    throw new TypeError('bucket, key and newETag must be strings');
+  }
   const args = {
     TableName: 'cs3',
     Key: {
       bucket: { S: bucket },
       key: { S: key }
     },
-    UpdateExpression: 'set ETag = :etag',
+    UpdateExpression: 'set ETag = :newETag',
     ExpressionAttributeValues: {
-      ':etag': { S: ETag }
+      ':newETag': { S: newETag }
     },
     ReturnValues: 'ALL_OLD'
   };
   // Update or create the entry in DynamoDB
   const result = await dynamodb.updateItem(args).promise();
   // Save the previous ETag if it existed
-  const prevETag = (result &&
-    result.Attributes &&
-    result.Attributes.ETag) ||
-    '';
-  return { prevETag, ETag };
+  const origETag = loget(result, 'Attributes.ETag', '');
+  return { origETag, newETag };
 }
 
-async function revertETag(dynamodb, bucket, key, origETag, curETag) {
+async function revertETag(dynamodb, bucket, key, origETag, newETag) {
   const args = {
     TableName: 'cs3',
     Key: {
@@ -49,8 +51,10 @@ async function revertETag(dynamodb, bucket, key, origETag, curETag) {
     UpdateExpression: 'set ETag = :origETag',
     ExpressionAttributeValues: {
       ':origETag': { S: origETag },
-      ':curETag': { S: curETag }
+      ':newETag': { S: newETag }
     },
+    ConditionExpression: 'ETag = :newETag',
+
     ReturnValues: 'ALL_OLD'
   };
   // Update or create the entry in DynamoDB
@@ -69,17 +73,16 @@ module.exports = (s3, dynamodb) => {
    */
   return async function put(bucket, key, body) {
     // Compute ETag for the body
-    const { ETag } = md5(body);
+    const { ETag: newETag } = md5(body);
     // Place new ETag into DynamoDB and fetch the prev ETag
-    const { prevETag } =
-      await saveETag(dynamodb, bucket, key, `"${ETag}"`);
+    const { origETag } =
+      await saveETag(dynamodb, bucket, key, `"${newETag}"`);
     // Place the body into S3.  If this fails, restore the previous
     // ETag to DynamoDB
     try {
       return await putS3(s3, bucket, key, body);
     } catch (error) {
-      console.error('error', error);
-      await revertETag(dynamodb, bucket, key, prevETag, ETag);
+      await revertETag(dynamodb, bucket, key, origETag, newETag);
       throw error;
     }
   };

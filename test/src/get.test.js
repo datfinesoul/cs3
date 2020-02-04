@@ -33,7 +33,7 @@ test('get success, s3 & dynamo match', async t => {
     getItem: sandbox.stub()
     .returns({
       promise: () => Promise.resolve({
-        Item: { ETag }
+        Item: { ETag: { S: ETag }}
       })
     })
   };
