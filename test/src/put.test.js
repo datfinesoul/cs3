@@ -4,12 +4,10 @@ const factory = require('../../src/put');
 
 test.beforeEach(t => {
   t.context = { sandbox: sinon.createSandbox() };
-  process.env.NODE_ENV = 'production';
 });
 
 test.afterEach(t => {
   t.context.sandbox.restore();
-  t.is(process.env.NODE_ENV, 'production');
 });
 
 test('put success', async t => {

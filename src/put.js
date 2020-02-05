@@ -1,3 +1,4 @@
+'use strict';
 const loget = require('lodash.get');
 const loisstring = require('lodash.isstring');
 const { md5 } = require('./generators');
@@ -41,6 +42,13 @@ async function saveETag(dynamodb, bucket, key, newETag) {
   return { origETag, newETag };
 }
 
+/*
+ * Change the ETag to newETag if the current stored ETag === origETag
+ *
+ * Info: Assuming that 2+ putObject calls are happening concurrently
+ * for the same bucket/key, the final one should always win and
+ * therefore even in case of error never interrupt the latter request
+ */
 async function revertETag(dynamodb, bucket, key, origETag, newETag) {
   const args = {
     TableName: 'cs3',
@@ -80,6 +88,7 @@ module.exports = (s3, dynamodb) => {
     // Place the body into S3.  If this fails, restore the previous
     // ETag to DynamoDB
     try {
+      // TODO: Needs to only happen if ETags differ
       return await putS3(s3, bucket, key, body);
     } catch (error) {
       await revertETag(dynamodb, bucket, key, origETag, newETag);

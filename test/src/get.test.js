@@ -4,12 +4,10 @@ const factory = require('../../src/get');
 
 test.beforeEach(t => {
   t.context = { sandbox: sinon.createSandbox() };
-  process.env.NODE_ENV = 'production';
 });
 
 test.afterEach(t => {
   t.context.sandbox.restore();
-  t.is(process.env.NODE_ENV, 'production');
 });
 
 test('get success, s3 & dynamo match', async t => {
