@@ -41,3 +41,11 @@ npm install --dry-run 2>&1 | \
   uniq | \
   xargs -I{} npm i -D {}
 ```
+
+## TODO:
+
+- Allow passing a cb for when the operation fails
+	- this is allow logging or whatever is desired by the client
+- Worth implementing retry?
+	- If so, make it so that the max retry period is provided
+- Custom exception for when the operation fails due to a sync issue

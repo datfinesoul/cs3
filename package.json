@@ -1,5 +1,5 @@
 {
-  "name": "cs3",
+  "name": "consistent-s3",
   "version": "1.0.0",
   "description": "ConsistentS3",
   "main": "index.js",
@@ -24,8 +24,9 @@
     "lodash.get": "^4.4.2",
     "lodash.isstring": "^4.0.1"
   },
+  "engineStrict": true,
   "engines": {
-    "node": ">= 8"
+    "node": "^8"
   },
   "devDependencies": {
     "ava": "^3.0.0",
